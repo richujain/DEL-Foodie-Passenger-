@@ -32,15 +32,17 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                if(id == R.id.myprofile){
-                    Toast.makeText(MainActivity.this, "My Profile", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.settings){
-                    Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.editprofile){
-                    Toast.makeText(MainActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
+                switch(menuItem.getItemId()){
+                    case R.id.account :
+                        Toast.makeText(MainActivity.this, "My Profile", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.settings :
+                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.editprofile :
+                        Toast.makeText(MainActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
+                        break;
+
                 }
                 return true;
             }

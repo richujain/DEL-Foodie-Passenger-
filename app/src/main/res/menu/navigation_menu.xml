@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@id/myprofile"
-        android:title="My Profile"
+
+    <item android:id="@+id/account"
         android:icon="@drawable/ic_baseline_person_24"
-        >
-    </item>
-    <item
-        android:id="@id/settings"
-        android:title="Settings"
+        android:title="My Account"/>
+    <item android:id="@+id/settings"
         android:icon="@drawable/ic_baseline_settings_24"
-        >
-    </item>
-    <item
-        android:id="@id/editprofile"
-        android:title="Edit Profile"
+        android:title="Settings"/>
+    <item android:id="@+id/editprofile"
         android:icon="@drawable/ic_baseline_edit_24"
-        >
-    </item>
+        android:title="Edit Account"/>
+
 </menu>
