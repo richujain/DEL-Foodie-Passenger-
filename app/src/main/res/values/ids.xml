@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="myprofile" type="id">myprofile</item>
+    <item name="settings" type="id">settings</item>
+    <item name="editprofile" type="id">editprofile</item>
+</resources>
