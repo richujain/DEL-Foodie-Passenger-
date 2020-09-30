@@ -2,4 +2,6 @@
     <string name="app_name">DELFoodiePassenger</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+    <string name="enter_postal_code">Enter Postal Code</string>
+    <string name="search">Search</string>
 </resources>

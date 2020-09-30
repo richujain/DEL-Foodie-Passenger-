@@ -6,14 +6,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
+    private EditText postalCode;
+    private Button searchPostalCodeButton;
+
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +35,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        searchPostalCodeButton = findViewById(R.id.searchPostalCode);
         drawerLayout = findViewById(R.id.drawerLayout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.Open,R.string.Close);
+        postalCode = findViewById(R.id.postalCode);
+        postalCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                final String PostalCodeInString = postalCode.getText().toString();
+                if(!isPostalCodeValid(PostalCodeInString)) {
+                    searchPostalCodeButton.setVisibility(View.GONE);
+                    postalCode.setError("Invalid Postal Code");
+                }
+                else {
+                    searchPostalCodeButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -32,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch(menuItem.getItemId()){
-                    case R.id.account :
+                switch (menuItem.getItemId()) {
+                    case R.id.account:
                         Toast.makeText(MainActivity.this, "My Profile", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.settings :
+                    case R.id.settings:
                         Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.editprofile :
+                    case R.id.editprofile:
                         Toast.makeText(MainActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -49,8 +86,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    private boolean isPostalCodeValid(String postalCodeInString) {
+
+        String regex = "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$";
+
+
+        Pattern pattern = Pattern.compile(regex);
+
+
+            Matcher matcher = pattern.matcher(postalCodeInString);
+            System.out.println(matcher.matches());
+
+        return matcher.matches();
     }
+
+
+    @Override
+        public boolean onOptionsItemSelected (@NonNull MenuItem item){
+            return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        }
 }
