@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         finish();
                         break;
                     case R.id.payment:
-                        Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, PaymentActivity.class));
+                        finish();
                         break;
                     case R.id.logout:
                         Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();

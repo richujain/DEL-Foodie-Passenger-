@@ -1,9 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="#1ebed4"
+        android:id="@+id/profileImageContainer"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/person"
+            android:id="@+id/profileImage"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="John Tabor"
+            android:textColor="#ffffff"
+            android:textSize="35sp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/profileImage"
+            android:id="@+id/name"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:text="johntabor@gmail.com"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:layout_below="@id/name"
+            android:id="@+id/email"
+            android:textStyle="bold"
+            android:gravity="center_horizontal"
+            />
+    </RelativeLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/profileImageContainer"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/contactTitle"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/contactTitle"
+        android:text="+14371231231"
+        android:hint="Enter your contact number"
+        android:id="@+id/contact"
+        android:gravity="center"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/contact"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/addressTitle"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressTitle"
+        android:text="156 Quantrell Trail"
+        android:hint="Enter your contact number"
+        android:id="@+id/address"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_rounded_corner"
+        android:id="@+id/saveProfileDetails"
+        android:textColor="#FFFFFF"
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:text="Save"/>
+</RelativeLayout>
