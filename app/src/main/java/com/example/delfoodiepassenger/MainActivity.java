@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -70,16 +71,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
-                    case R.id.account:
-                        Toast.makeText(MainActivity.this, "My Profile", Toast.LENGTH_SHORT).show();
+                    case R.id.profile:
+                        startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                        finish();
                         break;
-                    case R.id.settings:
-                        Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
+                    case R.id.payment:
+                        Toast.makeText(MainActivity.this, "Payment", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.editprofile:
-                        Toast.makeText(MainActivity.this, "Edit Profile", Toast.LENGTH_SHORT).show();
+                    case R.id.logout:
+                        Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                         break;
 
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
                 }
                 return true;
             }

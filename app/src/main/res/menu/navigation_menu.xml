@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/account"
+    <item android:id="@+id/profile"
         android:icon="@drawable/ic_baseline_person_24"
         android:title="Profile"/>
-    <item android:id="@+id/settings"
+    <item android:id="@+id/payment"
         android:icon="@drawable/ic_baseline_payment_24"
         android:title="Payment"/>
-    <item android:id="@+id/editprofile"
+    <item android:id="@+id/logout"
         android:icon="@drawable/ic_baseline_lock_open_24"
         android:title="Logout"/>
-
 </menu>
