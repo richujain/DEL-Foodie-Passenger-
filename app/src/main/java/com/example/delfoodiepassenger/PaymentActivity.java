@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.identity.intents.model.UserAddress;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,12 +35,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 
 public class PaymentActivity extends AppCompatActivity {
-    private PaymentsClient paymentsClient;
+
     EditText cardexpiry;
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 53;
     ImageView googlePayButton;
@@ -49,13 +52,6 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
 
         init();
-    }
-
-    private void googlePay() {
-        paymentsClient = Wallet.getPaymentsClient(this,
-                new Wallet.WalletOptions.Builder()
-                        .setEnvironment(WalletConstants.ENVIRONMENT_TEST)
-                        .build());
     }
     private void updateLabel() {
         String myFormat = "MM/dd/yy";
@@ -107,13 +103,10 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
     @Override
     public void onBackPressed() {
         startActivity(new Intent(PaymentActivity.this,MainActivity.class));
         finish();
     }
+
 }
