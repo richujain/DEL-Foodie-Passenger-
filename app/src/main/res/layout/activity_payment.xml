@@ -86,6 +86,26 @@
         android:id="@+id/cvv"
         android:gravity="center"/>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amount"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/cvv"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/amountTitle"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/amountTitle"
+        android:text="50.53"
+        android:hint="Enter the CVV"
+        android:id="@+id/amount"
+        android:gravity="center"/>
+
 
     <Button
         android:layout_width="match_parent"
@@ -98,15 +118,12 @@
         android:layout_alignParentBottom="true"
         android:text="Pay With Credit Card"/>
 
-    <ImageView
-        android:layout_width="250dp"
-        android:layout_height="20dp"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+    <include
         android:id="@+id/googlePayButton"
-        android:layout_margin="25dp"
+        layout="@layout/buy_with_googlepay_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/buy_button_height"
         android:layout_above="@id/savepaymentDetails"
-        android:src="@drawable/buy_with_googlepay_button_content"
-        />
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
 </RelativeLayout>
