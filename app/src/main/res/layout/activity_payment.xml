@@ -17,4 +17,96 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
     </androidx.appcompat.widget.Toolbar>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#1ebed4"
+        android:id="@+id/paymentContainer"
+        >
+    </RelativeLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Credit Card Number"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/paymentContainer"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/creditTitle"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/creditTitle"
+        android:text="1234567898789"
+        android:hint="Enter your Credit Card number"
+        android:id="@+id/cardNumber"
+        android:gravity="center"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expiry"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/cardNumber"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/cardExpiryTitle"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardExpiryTitle"
+        android:text="21/Aug/2023"
+        android:hint="Enter the card expiry date"
+        android:id="@+id/cardExpiry"
+        android:clickable="true"
+        android:editable="false"
+        android:gravity="center"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CVV"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_below="@id/cardExpiry"
+        android:textColor="#1ebed4"
+        android:textStyle="bold"
+        android:id="@+id/cvvTitle"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvvTitle"
+        android:text="987"
+        android:hint="Enter the CVV"
+        android:id="@+id/cvv"
+        android:gravity="center"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_rounded_corner"
+        android:id="@+id/savepaymentDetails"
+        android:textColor="#FFFFFF"
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:text="Pay With Credit Card"/>
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/googlePayButton"
+        android:layout_margin="25dp"
+        android:layout_above="@id/savepaymentDetails"
+        android:src="@drawable/buy_with_googlepay_button_content"
+        />
 </RelativeLayout>
