@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.delfoodiepassenger.databinding.ActivityPaymentBinding;
 import com.example.delfoodiepassenger.util.PaymentsUtil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -42,7 +43,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private PaymentsClient paymentsClient;
 
-    private ActivityCheckoutBinding layoutBinding;
+    private ActivityPaymentBinding layoutBinding;
     private View googlePayButton;
     private EditText amount;
     EditText cardexpiry;
@@ -50,10 +51,10 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
-        initializeUi();
         paymentsClient = PaymentsUtil.createPaymentsClient(this);
         possiblyShowGooglePayButton();
         init();
+        initializeUi();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -80,7 +81,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
     private void initializeUi() {
 
-        layoutBinding = ActivityCheckoutBinding.inflate(getLayoutInflater());
+        layoutBinding = ActivityPaymentBinding.inflate(getLayoutInflater());
         setContentView(layoutBinding.getRoot());
         amount = findViewById(R.id.amount);
 
