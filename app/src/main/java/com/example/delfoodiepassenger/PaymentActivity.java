@@ -46,7 +46,7 @@ public class PaymentActivity extends AppCompatActivity {
     private ActivityPaymentBinding layoutBinding;
     private View googlePayButton;
     private EditText amount;
-    EditText cardexpiry;
+    EditText cardExpiry;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +69,6 @@ public class PaymentActivity extends AppCompatActivity {
 
                     case Activity.RESULT_CANCELED:
                         break;
-
                     case AutoResolveHelper.RESULT_ERROR:
                         Status status = AutoResolveHelper.getStatusFromIntent(data);
                         handleError(status.getStatusCode());
@@ -128,7 +127,6 @@ public class PaymentActivity extends AppCompatActivity {
         if (paymentInfo == null) {
             return;
         }
-
         try {
             JSONObject paymentMethodData = new JSONObject(paymentInfo).getJSONObject("paymentMethodData");
             final JSONObject tokenizationData = paymentMethodData.getJSONObject("tokenizationData");
@@ -177,7 +175,6 @@ public class PaymentActivity extends AppCompatActivity {
         if (!paymentDataRequestJson.isPresent()) {
             return;
         }
-
         PaymentDataRequest request =
                 PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
         if (request != null) {
@@ -185,14 +182,12 @@ public class PaymentActivity extends AppCompatActivity {
                     paymentsClient.loadPaymentData(request),
                     this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
-
-
     }
     private void updateLabel() {
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        cardexpiry.setText(sdf.format(myCalendar.getTime()));
+        cardExpiry.setText(sdf.format(myCalendar.getTime()));
     }
 
     final Calendar myCalendar = Calendar.getInstance();
@@ -207,7 +202,7 @@ public class PaymentActivity extends AppCompatActivity {
     };
 
     private void init() {
-        cardexpiry = findViewById(R.id.cardExpiry);
+        cardExpiry = findViewById(R.id.cardExpiry);
         Toolbar toolbar = findViewById(R.id.toolbarPayment);
         toolbar.bringToFront();
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
@@ -219,7 +214,7 @@ public class PaymentActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        cardexpiry.setOnClickListener(new View.OnClickListener() {
+        cardExpiry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
