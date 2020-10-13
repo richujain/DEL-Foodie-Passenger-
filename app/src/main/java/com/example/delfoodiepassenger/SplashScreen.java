@@ -25,7 +25,6 @@ public class SplashScreen extends AppCompatActivity {
         }
 
 
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).commit();
+
     }
 }

@@ -3,9 +3,16 @@ package com.example.delfoodiepassenger;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
     Button btnSignIn;
     RelativeLayout rootLayout;
     Realm realm;
-    String latitute = "100.0", longitude = "200.0";
+    String latitude = "100.0", longitude = "200.0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void init() {
+        updateLocation();
         btnSignIn = findViewById(R.id.btnSignIn);
         realm = Realm.getDefaultInstance();
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +54,35 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void updateLocation() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        longitude = String.valueOf(location.getLongitude());
+        latitude = String.valueOf(location.getLatitude());
+        final LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+            }
+        };
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        Log.v("location",latitude+longitude);
+        Toast.makeText(this, "updatelocation"+latitude+longitude, Toast.LENGTH_SHORT).show();
+
+    }
+
 
     private void showLoginDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this,R.style.MyDialogTheme);
@@ -85,7 +122,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     return;
                 }
                 writeToRealmDatabase(edtName.getText().toString().trim(), edtEmail.getText().toString().trim(),edtContact.getText().toString().trim(),
-                        latitute,longitude);
+                        latitude,longitude);
 
             }
         });

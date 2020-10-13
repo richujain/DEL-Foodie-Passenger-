@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
         searchPostalCodeButton = findViewById(R.id.searchPostalCode);
         drawerLayout = findViewById(R.id.drawerLayout);
         postalCode = findViewById(R.id.postalCode);

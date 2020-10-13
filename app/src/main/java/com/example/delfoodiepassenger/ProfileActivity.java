@@ -19,7 +19,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class ProfileActivity extends AppCompatActivity {
-    EditText name, contact;
+    EditText name, contact,address;
     TextView email;
     Button saveProfileDetails;
     Realm realm;
@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         contact = findViewById(R.id.contact);
+        address = findViewById(R.id.address);
         saveProfileDetails = findViewById(R.id.saveProfileDetails);
         realm = Realm.getDefaultInstance();
         updateUI();
@@ -83,6 +84,7 @@ public class ProfileActivity extends AppCompatActivity {
         name.setText(result.first().getName());
         email.setText(result.first().getEmailId());
         contact.setText(result.first().getContact());
+        address.setText("Lat : " + result.first().getLatitude() + "Long : " + result.first().getLongitude());
     }
 
     @Override
