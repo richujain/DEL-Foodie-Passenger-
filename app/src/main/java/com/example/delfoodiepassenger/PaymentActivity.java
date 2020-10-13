@@ -53,8 +53,8 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         paymentsClient = PaymentsUtil.createPaymentsClient(this);
         possiblyShowGooglePayButton();
-        init();
         initializeUi();
+        init();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
