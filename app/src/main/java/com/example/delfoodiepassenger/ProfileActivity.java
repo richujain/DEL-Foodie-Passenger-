@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView email;
     Button saveProfileDetails;
     Realm realm;
-    String latitute, longitude;
+    String latitute = "100.0", longitude = "200.0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,49 +48,41 @@ public class ProfileActivity extends AppCompatActivity {
         contact = findViewById(R.id.contact);
         saveProfileDetails = findViewById(R.id.saveProfileDetails);
         realm = Realm.getDefaultInstance();
-        //updateUI();
+        updateUI();
         saveProfileDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeToRealmDatabase(name.getText().toString().trim(), email.getText().toString().trim(),contact.getText().toString().trim(),
+                updateRealmDatabase(name.getText().toString().trim(), email.getText().toString().trim(),contact.getText().toString().trim(),
                         latitute,longitude);
             }
         });
     }
 
-    private void writeToRealmDatabase(final String name, final String email, final String contact, final String latitute, final String longitude) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
+    private void updateRealmDatabase(final String name, final String email, final String contact, final String latitute, final String longitude) {
+        realm.executeTransaction(new Realm.Transaction() {
             @Override
-            public void execute(Realm bgRealm) {
-                Customer customer = bgRealm.createObject(Customer.class);
+            public void execute (Realm realm) {
+                Customer customer = realm.where(Customer.class).equalTo("email", email).findFirst();
+                if(customer == null) {
+                    Toast.makeText(ProfileActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                }
                 customer.setName(name);
-                customer.setEmail(email);
                 customer.setContact(contact);
                 customer.setLatitude(latitute);
                 customer.setLongitude(longitude);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                Toast.makeText(ProfileActivity.this, "Updated Data", Toast.LENGTH_SHORT).show();
-                Log.v("database","Data Inserted");
-                updateUI();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                // Transaction failed and was automatically canceled.
-                Toast.makeText(ProfileActivity.this, "Error Updating Data", Toast.LENGTH_SHORT).show();
-                Log.e("database",error.getMessage());
+
             }
         });
+        Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
     }
+
 
     private void updateUI() {
         RealmResults<Customer> result = realm.where(Customer.class)
-                .equalTo("email", email.getText().toString().trim())
                 .findAll();
-        Log.v("trial",result.first().getName());
+        name.setText(result.first().getName());
+        email.setText(result.first().getEmailId());
+        contact.setText(result.first().getContact());
     }
 
     @Override
