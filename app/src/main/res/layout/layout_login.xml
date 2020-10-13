@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="1dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    android:layout_height="match_parent"
+    app:cardElevation="20dp"    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/colortoolbar"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:text=""
+            android:textColor="@color/colortoolbar"
+            android:textColorHint="@color/colortoolbar"
+            android:textSize="17sp"
+            app:met_baseColor="@color/colortoolbar"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colortoolbar"
+            app:met_singleLineEllipsis="true"
+            app:met_textColorHint="@color/colortoolbar" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/colortoolbar"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:text=""
+            android:textColor="@color/colortoolbar"
+            android:textColorHint="@color/colortoolbar"
+            android:textSize="17sp"
+            app:met_baseColor="@color/colortoolbar"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colortoolbar"
+            app:met_singleLineEllipsis="true"
+            app:met_textColorHint="@color/colortoolbar" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edtContact"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:background="@color/colorWhite"
+            android:hint="Contact "
+            android:inputType="number"
+            android:text=""
+            android:textColor="@color/colortoolbar"
+            android:textColorHint="@color/colortoolbar"
+            android:textSize="17sp"
+            app:met_baseColor="@color/colortoolbar"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colortoolbar"
+            app:met_singleLineEllipsis="true"
+            app:met_textColorHint="@color/colortoolbar" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

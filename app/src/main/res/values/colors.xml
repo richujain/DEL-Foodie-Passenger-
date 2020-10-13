@@ -3,4 +3,12 @@
     <color name="colorPrimary">#1ebed4</color>
     <color name="colorPrimaryDark">#04899C</color>
     <color name="colorAccent">#42BBCC</color>
+    <color name="colorGrey">#808080</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorBtnSignIn">#1fbad6</color>
+    <color name="colortoolbar">#489cff</color>
+    <color name="colorRippleEffect">#2e6ad1</color>
+
 </resources>
