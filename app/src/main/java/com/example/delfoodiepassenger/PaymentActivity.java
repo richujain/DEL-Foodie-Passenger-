@@ -12,11 +12,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.delfoodiepassenger.databinding.ActivityPaymentBinding;
+import com.example.delfoodiepassenger.model.Customer;
 import com.example.delfoodiepassenger.util.PaymentsUtil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,17 +38,19 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Optional;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class PaymentActivity extends AppCompatActivity {
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
-
     private static final long SHIPPING_COST_CENTS = 90 * PaymentsUtil.CENTS_IN_A_UNIT.longValue();
-
     private PaymentsClient paymentsClient;
-
     private ActivityPaymentBinding layoutBinding;
     private View googlePayButton;
-    private EditText amount;
-    EditText cardExpiry;
+    private EditText amount, cardExpiry, cardNumber, cvv;
+    private Button savePaymentDetails;
+    Realm realm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,71 @@ public class PaymentActivity extends AppCompatActivity {
         initializeUi();
         init();
     }
+    private void init() {
+        cardNumber = findViewById(R.id.cardNumber);
+        cvv = findViewById(R.id.cvv);
+        cardExpiry = findViewById(R.id.cardExpiry);
+        savePaymentDetails = findViewById(R.id.savePaymentDetails);
+        realm = Realm.getDefaultInstance();
+        updateUI();
+        Toolbar toolbar = findViewById(R.id.toolbarPayment);
+        toolbar.bringToFront();
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        cardExpiry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(PaymentActivity.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+
+
+        });
+        savePaymentDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateOrAddCreditCard(cardNumber.getText().toString().trim(), cardExpiry.getText().toString().trim(), cvv.getText().toString().trim());
+                updateUI();
+            }
+        });
+    }
+
+    private void updateOrAddCreditCard(final String cardNumber, final String cardExpiry, final String cvv) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute (Realm realm) {
+                Customer customer = realm.where(Customer.class).equalTo("email", getCustomerEmail()).findFirst();
+                if(customer == null) {
+                    Toast.makeText(PaymentActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+                }
+                customer.setCardNumber(cardNumber);
+                customer.setCardExpiry(cardExpiry);
+                customer.setCvv(cvv);
+            }
+        });
+    }
+    private void updateUI(){
+        RealmResults<Customer> result = realm.where(Customer.class)
+                .findAll();
+        cardNumber.setText(result.first().getCardNumber());
+        cardExpiry.setText(result.first().getCardExpiry());
+        cvv.setText(result.first().getCvv());
+    }
+    private String getCustomerEmail(){
+        RealmResults<Customer> result = realm.where(Customer.class)
+                .findAll();
+        return result.first().getEmailId();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -201,31 +270,7 @@ public class PaymentActivity extends AppCompatActivity {
         }
     };
 
-    private void init() {
-        cardExpiry = findViewById(R.id.cardExpiry);
-        Toolbar toolbar = findViewById(R.id.toolbarPayment);
-        toolbar.bringToFront();
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_baseline_arrow_back_24));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        cardExpiry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(PaymentActivity.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
 
-
-        });
-    }
     @Override
     public void onBackPressed() {
         startActivity(new Intent(PaymentActivity.this,MainActivity.class));
