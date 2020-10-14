@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+            actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

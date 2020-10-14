@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,6 +36,8 @@ public class WelcomeActivity extends AppCompatActivity {
     RelativeLayout rootLayout;
     Realm realm;
     String latitude = "100.0", longitude = "200.0";
+    //get access to location permission
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void init() {
-        updateLocation();
+
         btnSignIn = findViewById(R.id.btnSignIn);
         realm = Realm.getDefaultInstance();
         btnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +56,33 @@ public class WelcomeActivity extends AppCompatActivity {
                 showLoginDialog();
             }
         });
+        if ( Build.VERSION.SDK_INT >= 23){
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED  ){
+                requestPermissions(new String[]{
+                                android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return ;
+            }
+        }
+        updateLocation();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    updateLocation();
+                } else {
+                    // Permission Denied
+                    Toast.makeText( this,"your message" , Toast.LENGTH_SHORT)
+                            .show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private void updateLocation() {
@@ -78,9 +108,8 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         };
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-        Log.v("location",latitude+longitude);
-        Toast.makeText(this, "updatelocation"+latitude+longitude, Toast.LENGTH_SHORT).show();
-
+        Log.v("location", String.valueOf(location.getLongitude()+location.getLatitude()));
+        Toast.makeText(this, "updatelocation"+location.getLongitude()+location.getLatitude(), Toast.LENGTH_SHORT).show();
     }
 
 

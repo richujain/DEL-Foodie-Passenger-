@@ -75,6 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/contactTitle"
         android:text="+14371231231"
+        android:inputType="number"
         android:hint="Enter your contact number"
         android:id="@+id/contact"
         android:gravity="center"/>

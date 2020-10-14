@@ -16,7 +16,6 @@
     </style>
     <style name="MyDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/colorWhite</item>
-
         <item name="dialogCornerRadius">20dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colortoolbar</item>

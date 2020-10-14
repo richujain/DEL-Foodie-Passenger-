@@ -2,8 +2,16 @@ package com.example.delfoodiepassenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +31,9 @@ public class ProfileActivity extends AppCompatActivity {
     TextView email;
     Button saveProfileDetails;
     Realm realm;
-    String latitute = "100.0", longitude = "200.0";
+    String latitude = "100.0", longitude = "200.0";
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +64,47 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateRealmDatabase(name.getText().toString().trim(), email.getText().toString().trim(),contact.getText().toString().trim(),
-                        latitute,longitude);
+                        latitude,longitude);
+                updateUI();
             }
         });
+        if ( Build.VERSION.SDK_INT >= 23){
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED  ){
+                requestPermissions(new String[]{
+                                android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_CODE_ASK_PERMISSIONS);
+                return ;
+            }
+        }
+        updateLocation();
     }
+    private void updateLocation() {
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
 
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        longitude = String.valueOf(location.getLongitude());
+        latitude = String.valueOf(location.getLatitude());
+        final LocationListener locationListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+            }
+        };
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        Log.v("location", String.valueOf(location.getLongitude()+location.getLatitude()));
+        Toast.makeText(this, "updatelocation"+location.getLongitude()+location.getLatitude(), Toast.LENGTH_SHORT).show();
+    }
     private void updateRealmDatabase(final String name, final String email, final String contact, final String latitute, final String longitude) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -77,14 +123,13 @@ public class ProfileActivity extends AppCompatActivity {
         Toast.makeText(this, "Updated", Toast.LENGTH_SHORT).show();
     }
 
-
     private void updateUI() {
         RealmResults<Customer> result = realm.where(Customer.class)
                 .findAll();
         name.setText(result.first().getName());
         email.setText(result.first().getEmailId());
         contact.setText(result.first().getContact());
-        address.setText("Lat : " + result.first().getLatitude() + "Long : " + result.first().getLongitude());
+        address.setText("Lat : " + result.first().getLatitude() + " Long : " + result.first().getLongitude());
     }
 
     @Override
