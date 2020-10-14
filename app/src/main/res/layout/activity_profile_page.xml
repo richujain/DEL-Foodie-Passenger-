@@ -25,12 +25,33 @@
         >
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="match_parent"
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="155dp"
             android:layout_marginTop="70dp"
-            android:src="@drawable/person"
-            android:id="@+id/profileImage"
-            />
+            app:srcCompat="@drawable/person"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        <Button
+            android:id="@+id/editProfilepicture"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="185dp"
+            android:layout_below="@id/imageView"
+            android:background="@drawable/button_rounded_corner"
+            android:gravity="center_horizontal"
+            android:text="Edit"
+            android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/gallery"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="120dp"
+            android:layout_below="@id/imageView"
+            android:background="@drawable/button_rounded_corner"
+            android:gravity="center_horizontal"
+            android:text="gallery"
+            android:textColor="#FFFFFF" />
 
         <EditText
             android:layout_width="match_parent"
@@ -40,7 +61,7 @@
             android:textColor="#ffffff"
             android:textSize="35sp"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/profileImage"
+            android:layout_below="@id/gallery"
             android:id="@+id/name"
             android:textStyle="bold"
             android:gravity="center_horizontal"

@@ -1,22 +1,30 @@
 package com.example.delfoodiepassenger;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +41,13 @@ public class ProfileActivity extends AppCompatActivity {
     Realm realm;
     String latitude = "100.0", longitude = "200.0";
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    //Ashish
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    private static final int GALLERY_REQUEST = 9;
+    ImageView profileImage;
+    Button editProfilePicture,gallery;
+    //Ashish
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +75,27 @@ public class ProfileActivity extends AppCompatActivity {
         saveProfileDetails = findViewById(R.id.saveProfileDetails);
         realm = Realm.getDefaultInstance();
         updateUI();
+        //Ashish
+        profileImage = findViewById(R.id.imageView);
+        editProfilePicture = findViewById(R.id.editProfilepicture);
+        gallery = findViewById(R.id.gallery);
+        editProfilePicture.setOnClickListener(new View.OnClickListener() {
+                                                  @Override
+                                                  public void onClick(View v) {
+                                                      askCameraPermissions();
+                                                  }
+                                              }
+        );
+        gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, GALLERY_REQUEST);
+            }
+        });
+        //Ashish
         saveProfileDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,4 +179,41 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(ProfileActivity.this,MainActivity.class));
         finish();
     }
+    //Ashish
+    private void askCameraPermissions() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},CAMERA_PERM_CODE);
+        }else {
+            dispatchTakePictureIntent();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == CAMERA_PERM_CODE){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                dispatchTakePictureIntent();
+            }else {
+                Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void dispatchTakePictureIntent()
+    {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+    }
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data) {
+        if( requestCode == CAMERA_REQUEST_CODE ) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            profileImage.setImageBitmap(photo);
+        }
+        else if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
+            Uri uri=data.getData();
+            profileImage = (ImageButton)findViewById(R.id.imageView);
+            profileImage.setImageURI(uri);
+        }
+    }
+
+    //Ashish
 }
