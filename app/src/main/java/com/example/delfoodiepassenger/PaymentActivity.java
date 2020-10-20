@@ -41,6 +41,8 @@ import java.util.Optional;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+//Test
+
 public class PaymentActivity extends AppCompatActivity {
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
     private static final long SHIPPING_COST_CENTS = 90 * PaymentsUtil.CENTS_IN_A_UNIT.longValue();
