@@ -22,20 +22,19 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="296dp"
-            android:layout_height="297dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="278dp"
+            android:layout_marginLeft="-220dp"
+            android:layout_height="193dp"
+            android:layout_marginTop="120dp"
             app:srcCompat="@drawable/logo" />
-
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="53dp"
-            android:layout_below="@id/imageView2"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="50dp"
+            android:layout_marginTop="321dp"
             android:fontFamily="@font/hammersmith_one"
             android:gravity="center"
             android:text="Looking for restaurants nearby?"
@@ -71,7 +70,6 @@
             android:text="@string/search"
             android:textColor="#FFFFFF"
             android:visibility="gone" />
-
 
 
 
