@@ -68,9 +68,7 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             // Permission is already available, show restaurants
-            Snackbar.make(mLayout,
-                    "Location permission available. Show restaurants.",
-                    Snackbar.LENGTH_SHORT).show();
+
             startRestaurants();
         } else {
             // Permission is missing and must be requested.
