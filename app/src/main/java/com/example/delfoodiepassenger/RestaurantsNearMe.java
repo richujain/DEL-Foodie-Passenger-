@@ -12,6 +12,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ViewFlipper;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -19,14 +21,24 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
 
     private static final int PERMISSION_REQUEST_LOCATION = 0;
     private View mLayout;
+    ViewFlipper vFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants_near_me);
         mLayout = findViewById(R.id.layout);
-
         Button button = findViewById(R.id.button);
+
+        int images[] = {R.drawable.popular1, R.drawable.popular2, R.drawable.popular3};
+        vFlipper = findViewById(R.id.vFlipper);
+
+
+        for (int image: images)
+        {
+            flipperImages(image);
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +46,24 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
             }
         });
     }
+
+    public void flipperImages(int image)
+    {
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundResource(image);
+        vFlipper.addView(imageView);
+        vFlipper.setFlipInterval(4000);
+        vFlipper.setAutoStart(true);
+
+        //animatiom
+        vFlipper.setInAnimation(this, android.R.anim.slide_in_left);
+        vFlipper.setOutAnimation(this,android.R.anim.slide_out_right);
+
+
+
+
+    }
+
     public void showRestaurants(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {

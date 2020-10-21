@@ -1,47 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id = "@+id/layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RestaurantsNearMe">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarPayment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/toolbar_bg"
+        android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    </androidx.appcompat.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#1ebed4"
+        android:layout_alignParentStart="true"
+        android:id="@+id/paymentContainer">
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/foodImage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:adjustViewBounds="true"
+        android:layout_below="@id/toolbarPayment"
+        app:srcCompat="@drawable/popular1" />
 
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/vFlipper"/>
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_rounded_corner"
         android:id="@+id/button"
-        android:layout_width="153dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="172dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:backgroundTint="@android:color/holo_green_light"
-        android:fontFamily="casual"
-        android:radius="80dp"
-        android:text="Restaurants"
-        android:textAppearance="@style/TextAppearance.AppCompat.Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="85dp"
-        android:fontFamily="casual"
-        android:text="Restaurant Locator"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textColor="#FFFFFF"
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/foodImage2"
+        android:text="Show nearby restaurants"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
