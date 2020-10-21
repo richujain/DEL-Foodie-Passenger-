@@ -117,7 +117,9 @@ public class DisplayRestaurants extends AppCompatActivity {
                 if (Arrays.asList(foodChains).contains(place.name)) {
                     resultList.add(place);
                 }
-                Log.e("name",""+place.toString());
+                Log.e("name",""+predsJsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lat"));
+                Log.e("name",""+predsJsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lng"));
+                //Log.e("name",""+predsJsonArray.getJSONObject(i).getString("icon"));
 
             }
         } catch (JSONException e) {
