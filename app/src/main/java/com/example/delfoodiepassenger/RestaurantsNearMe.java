@@ -30,7 +30,7 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
         mLayout = findViewById(R.id.layout);
         Button button = findViewById(R.id.button);
 
-        int images[] = {R.drawable.popular1, R.drawable.popular2, R.drawable.popular3};
+        int images[] = {R.drawable.popular1, R.drawable.popular3};
         vFlipper = findViewById(R.id.vFlipper);
 
 
@@ -52,7 +52,7 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(image);
         vFlipper.addView(imageView);
-        vFlipper.setFlipInterval(4000);
+        vFlipper.setFlipInterval(1500);
         vFlipper.setAutoStart(true);
 
         //animatiom
