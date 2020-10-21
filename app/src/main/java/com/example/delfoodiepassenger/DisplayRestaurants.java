@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DisplayRestaurants extends AppCompatActivity {
 
@@ -104,8 +105,20 @@ public class DisplayRestaurants extends AppCompatActivity {
                 Place place = new Place();
                 place.reference = predsJsonArray.getJSONObject(i).getString("reference");
                 place.name = predsJsonArray.getJSONObject(i).getString("name");
-                Log.e("name",""+place.name);
-                resultList.add(place);
+                String[] foodChains = {
+                        "Boston Pizza",
+                        "Tim Hortons",
+                        "McDonald's",
+                        "Harvey's",
+                        "Popeyes Louisana Kitchen",
+                        "Subway",
+                        "Pizza Pizza",
+                };
+                if (Arrays.asList(foodChains).contains(place.name)) {
+                    resultList.add(place);
+                }
+                Log.e("name",""+place.toString());
+
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error processing JSON results", e);
