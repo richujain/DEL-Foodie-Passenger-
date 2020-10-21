@@ -18,8 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.delfoodiepassenger.databinding.ActivityPaymentBinding;
-import com.example.delfoodiepassenger.model.Customer;
-import com.example.delfoodiepassenger.util.PaymentsUtil;
+import com.example.delfoodiepassenger.model.*;
+import com.example.delfoodiepassenger.util.*;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,8 +40,6 @@ import java.util.Optional;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-//Test
 
 public class PaymentActivity extends AppCompatActivity {
     private static final int LOAD_PAYMENT_DATA_REQUEST_CODE = 991;
