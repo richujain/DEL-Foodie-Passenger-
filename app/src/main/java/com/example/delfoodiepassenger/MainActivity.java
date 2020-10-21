@@ -1,18 +1,24 @@
 package com.example.delfoodiepassenger;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -24,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private EditText postalCode;
     private Button searchPostalCodeButton;
+    private ImageView logoImageView;
+    long animationDuration = 1000;
 
 
     private ActionBarDrawerToggle actionBarDrawerToggle;
@@ -32,9 +40,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        logoImageView =(ImageView) findViewById(R.id.imageView2);
         init();
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                handleAnimationleft();
+            }
+        }, 1000);
+
+    }
+
+    public void handleAnimationleft () {
+    ObjectAnimator animatorX = ObjectAnimator.ofFloat(logoImageView, "x", 200f);
+    animatorX.setDuration(animationDuration);
+    AnimatorSet animatorSetX = new AnimatorSet();
+    animatorSetX.playTogether(animatorX);
+    animatorSetX.start();
+}
+    public void handleAnimationright (){
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(logoImageView,"x",1220f);
+        animatorY.setDuration(animationDuration);
+        AnimatorSet animatorSetY = new AnimatorSet();
+        animatorSetY.playTogether(animatorY);
+        animatorSetY.start();
+
+}
     private void init() {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
@@ -94,7 +135,15 @@ public class MainActivity extends AppCompatActivity {
         searchPostalCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RestaurantsNearMe.class));
+                handleAnimationright();
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, RestaurantsNearMe.class));
+                    }
+                }, 1000);
+
             }
         });
     }
@@ -112,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
         return matcher.matches();
     }
+
 
 
     @Override
