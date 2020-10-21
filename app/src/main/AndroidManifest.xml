@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".RealmBaseClass"
@@ -15,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RestaurantsNearMe"></activity>
+        <activity android:name=".DisplayRestaurants"></activity>
+        <activity android:name=".RestaurantsNearMe" />
         <activity
             android:name=".SplashScreen"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
