@@ -91,6 +91,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        searchPostalCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RestaurantsNearMe.class));
+            }
+        });
     }
 
     private boolean isPostalCodeValid(String postalCodeInString) {
