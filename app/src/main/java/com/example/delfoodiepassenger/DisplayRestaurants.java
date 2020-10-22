@@ -1,15 +1,22 @@
 package com.example.delfoodiepassenger;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.content.Intent;
 import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DisplayRestaurants extends AppCompatActivity {
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     private ListView mListView;
     private static final String API_KEY = "AIzaSyDqLGYkb-JRDLoh9lRnRDCrvQMUCUjqRQI";
@@ -46,14 +55,13 @@ public class DisplayRestaurants extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
+        init();
         Double lng = Double.parseDouble(longitude);
         Double lat = Double.parseDouble(latitude);
         int radius = 3000;
 
-
         ArrayList<Place> list = search(lat, lng, radius);
-        String[] maintitle = new String[list.size()];
+        final String[] maintitle = new String[list.size()];
         String[] subtitle = new String[list.size()];
         String[] imageUrl = new String[list.size()];
         for(int i = 0; i < list.size(); i++){
@@ -82,7 +90,6 @@ public class DisplayRestaurants extends AppCompatActivity {
                     break;
                 default: imageUrl[i] = list.get(i).icon;
             }
-
         }
 
         if (list != null)
@@ -97,34 +104,45 @@ public class DisplayRestaurants extends AppCompatActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO Auto-generated method stub
-                    if(position == 0) {
-                        //code specific to first list item
-                        Toast.makeText(getApplicationContext(),"Place Your First Option Code",Toast.LENGTH_SHORT).show();
-                    }
-
-                    else if(position == 1) {
-                        //code specific to 2nd list item
-                        Toast.makeText(getApplicationContext(),"Place Your Second Option Code", Toast.LENGTH_SHORT).show();
-                    }
-
-                    else if(position == 2) {
-
-                        Toast.makeText(getApplicationContext(),"Place Your Third Option Code",Toast.LENGTH_SHORT).show();
-                    }
-                    else if(position == 3) {
-
-                        Toast.makeText(getApplicationContext(),"Place Your Forth Option Code",Toast.LENGTH_SHORT).show();
-                    }
-                    else if(position == 4) {
-
-                        Toast.makeText(getApplicationContext(),"Place Your Fifth Option Code",Toast.LENGTH_SHORT).show();
-                    }
-
+                    Intent intent = new Intent(DisplayRestaurants.this, RestaurantMenuListActivity.class);
+                    intent.putExtra("restaurantName", maintitle[position]);
+                    startActivity(intent);
                 }
             });
 
         }
+    }
+
+    private void init() {
+        drawerLayout = findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.profile:
+                        startActivity(new Intent(DisplayRestaurants.this, ProfileActivity.class));
+                        finish();
+                        break;
+                    case R.id.payment:
+                        startActivity(new Intent(DisplayRestaurants.this, PaymentActivity.class));
+                        finish();
+                        break;
+                    case R.id.logout:
+                        Toast.makeText(DisplayRestaurants.this, "Logout", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
+                }
+                return true;
+            }
+        });
     }
 
     public static ArrayList<Place> search(double lat, double lng, int radius) {
@@ -166,7 +184,6 @@ public class DisplayRestaurants extends AppCompatActivity {
             // Create a JSON object hierarchy from the results
             JSONObject jsonObj = new JSONObject(jsonResults.toString());
             JSONArray predsJsonArray = jsonObj.getJSONArray("results");
-
             // Extract the descriptions from the results
             resultList = new ArrayList<Place>(predsJsonArray.length());
 
@@ -195,7 +212,7 @@ public class DisplayRestaurants extends AppCompatActivity {
                 }
                 //Log.e("name",""+predsJsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lat"));
                 //Log.e("name",""+predsJsonArray.getJSONObject(i).getJSONObject("geometry").getJSONObject("location").getString("lng"));
-                Log.e("name",""+predsJsonArray.getJSONObject(i));
+                //Log.e("name",""+predsJsonArray.getJSONObject(i));
 
             }
         } catch (JSONException e) {

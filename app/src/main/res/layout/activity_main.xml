@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="110dp"
                 android:gravity="center"
-                android:hint="@string/enter_postal_code"
+                android:text="M1B2V2"
                 android:padding="7dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
