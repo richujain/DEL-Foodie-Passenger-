@@ -85,6 +85,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             public void onClick(View v) {
                 if(quantity > 0){
                     quantity--;
+                    itemQuantity.setText(quantity);
                 }
                 else{
                     Toast.makeText(context, "Minimum Quantity Reached", Toast.LENGTH_SHORT).show();
@@ -96,6 +97,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             public void onClick(View v) {
                 if(quantity<11){
                     quantity++;
+                    itemQuantity.setText(quantity);
                 }
                 else{
                     Toast.makeText(context, "Maximum Quantity Reached", Toast.LENGTH_SHORT).show();
