@@ -1,5 +1,6 @@
 package com.example.delfoodiepassenger;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.media.Image;
@@ -35,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
     ItemListData[] itemsListData;
     Context context;
+    ItemListData currentItem;
     int quantity = 1;
     public ItemListAdapter(ItemListData[] itemsListData,RestaurantMenuListActivity context) {
         this.itemsListData = itemsListData;
@@ -64,7 +66,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             }
         });
     }
-    private void showAddToCartDialog(int position) {
+    private void showAddToCartDialog(final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context,R.style.MyDialogTheme);
         dialog.setTitle("Add To Cart");
 
@@ -78,14 +80,14 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         Glide.with(context).load(imageUrl).centerCrop().into(itemImageInPopUp);
         final Button minus = login_layout.findViewById(R.id.minus);
         final Button plus = login_layout.findViewById(R.id.plus);
-        final MaterialEditText itemQuantity = login_layout.findViewById(R.id.itemImage);
-        itemQuantity.setText(quantity);
+        final MaterialEditText itemQuantity = login_layout.findViewById(R.id.itemQuantity);
+        itemQuantity.setText(""+quantity);
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantity > 0){
+                if(quantity > 1){
                     quantity--;
-                    itemQuantity.setText(quantity);
+                    itemQuantity.setText(""+quantity);
                 }
                 else{
                     Toast.makeText(context, "Minimum Quantity Reached", Toast.LENGTH_SHORT).show();
@@ -95,9 +97,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantity<11){
+                if(quantity<10){
                     quantity++;
-                    itemQuantity.setText(quantity);
+                    itemQuantity.setText(""+quantity);
                 }
                 else{
                     Toast.makeText(context, "Maximum Quantity Reached", Toast.LENGTH_SHORT).show();
@@ -118,7 +120,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                     Toast.makeText(context, "Enter Valid Quantity", Toast.LENGTH_SHORT).show();
                 }
                 else{
-
+                    itemDetails(itemsListData[position].getItemId());
+                    Log.v("itemdetails",""+currentItem.getItemName());
                 }
 
 
@@ -146,10 +149,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             for(int i = 0; i<jsonArray.length();i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 if(jsonObject.getString("id").equals(itemId)){
-                    itemId.add(jsonObject.getString("id"));
-                    itemName.add(jsonObject.getString("item_name"));
-                    itemPrice.add(jsonObject.getString("item_price"));
-                    imageUrl.add(jsonObject.getString("image_URL"));
+                    currentItem = new ItemListData(jsonObject.getString("id"),jsonObject.getString("item_name"),
+                            jsonObject.getString("item_price"),jsonObject.getString("image_URL"));
+
                 }
             }
 
