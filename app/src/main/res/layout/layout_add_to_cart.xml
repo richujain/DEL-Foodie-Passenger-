@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="1dp"
+    app:cardBackgroundColor="@color/colorWhite"
+    android:layout_height="match_parent"
+    app:cardElevation="20dp"    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="17dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/itemNameInPopUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/colortoolbar"
+            android:text="Item Name"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/colortoolbar"
+            app:met_baseColor="@color/colortoolbar"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colortoolbar"
+            app:met_singleLineEllipsis="true"
+            app:met_textColorHint="@color/colortoolbar" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/itemImageInPopUp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:id="@+id/minus"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/minus"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/itemQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colortoolbar"
+                android:hint="Quantity"
+                android:inputType="textPersonName"
+                android:text=""
+                android:layout_toEndOf="@+id/minus"
+                android:layout_toStartOf="@+id/plus"
+                android:gravity="center"
+                android:textColor="@color/colortoolbar"
+                android:textColorHint="@color/colortoolbar"
+                android:textSize="17sp"
+                app:met_baseColor="@color/colortoolbar"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@color/colortoolbar"
+                app:met_singleLineEllipsis="true"
+                app:met_textColorHint="@color/colortoolbar" />
+            <Button
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:id="@+id/plus"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/plus"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
