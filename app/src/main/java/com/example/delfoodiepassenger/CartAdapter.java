@@ -25,6 +25,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     Cart currentCartItem;
     String restaurantLat,restaurantLng;
     Realm realm;
+    Double amount = 0.0;
 
     public CartAdapter(Cart[] cartData, CartActivity activity) {
         this.cartData = cartData;
@@ -45,6 +46,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             currentCartItem = cartData[position];
             holder.itemName.setText(""+cartData[position].getItemName());
             holder.itemPrice.setText(""+cartData[position].getItemPrice());
+            amount = Double.parseDouble(""+cartData[position].getItemPrice());
             holder.itemQuantity.setText(""+cartData[position].getItemQuantity());
             final String itemId = cartData[position].getItemId();
             String imageUrl = cartData[position].getImageurl();

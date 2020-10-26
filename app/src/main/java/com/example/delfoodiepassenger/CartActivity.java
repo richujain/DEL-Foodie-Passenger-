@@ -42,7 +42,6 @@ public class CartActivity extends AppCompatActivity {
                 Log.v("testing","testin");
                 startActivity(new Intent(getApplicationContext(),CartActivity.class));
                 finish();
-
             }
         });
         Log.v("cartitems",""+result);
