@@ -36,10 +36,10 @@ public class DeliveryActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         fetchCustomerLocationFromRealmDatabase();
         fetchRestaurantLocationFromRealmDatabase();
-        Log.v("lat1",""+restaurantLat);
-        Log.v("long1",""+restaurantLng);
-        Log.v("lat2",""+customerLat);
-        Log.v("long2",""+customerLng);
+        //Log.v("lat1",""+restaurantLat);
+        //Log.v("long1",""+restaurantLng);
+        //Log.v("lat2",""+customerLat);
+        //Log.v("long2",""+customerLng);
         distanceFromRestaurantToCustomerLocation = distance(restaurantLat,restaurantLng,customerLat,customerLng);
         updateUI();
     }
@@ -87,7 +87,12 @@ public class DeliveryActivity extends AppCompatActivity {
     private void fetchRestaurantLocationFromRealmDatabase() {
         RealmResults<Cart> result = realm.where(Cart.class)
                 .findAll();
+        Log.v("testing1",""+result.first().getLat());
+        Log.v("testing1",""+result.first().getLon());
         restaurantLat = Double.parseDouble(result.first().getLat());
         restaurantLng = Double.parseDouble(result.first().getLon());
+
+        Log.v("testing2",""+restaurantLat);
+        Log.v("testing2",""+restaurantLng);
     }
 }
