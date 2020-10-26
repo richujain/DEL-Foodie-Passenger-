@@ -16,6 +16,7 @@ import com.nimbusds.jose.util.ArrayUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
@@ -50,7 +51,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             Glide.with(context).load(imageUrl).centerCrop().into(holder.itemImage);
             restaurantLat = cartData[position].getLat();
             restaurantLng = cartData[position].getLon();
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,7 +60,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         public void execute(Realm realm) {
                             RealmResults<Cart> rows = realm.where(Cart.class).equalTo("itemId",itemId).findAll();
                             rows.deleteAllFromRealm();
-                            cartData[position] = null;
                             /*Cart[] temp = new Cart[cartData.length-1];
                             for (int i = 0; i < cartData.length-1; i++) {
                                 if (i<position){
@@ -72,6 +71,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                                 }
                             }
                             cartData = temp;*/
+                           // notifyItemChanged(position);
+
                         }
                     });
                 }

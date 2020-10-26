@@ -166,7 +166,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             @Override
             public void onSuccess() {
                 Toast.makeText(context, "Added To Cart", Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context,CartActivity.class));
+                //context.startActivity(new Intent(context,CartActivity.class));
             }
         }, new Realm.Transaction.OnError() {
             @Override
