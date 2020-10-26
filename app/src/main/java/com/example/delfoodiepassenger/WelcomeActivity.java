@@ -109,7 +109,6 @@ public class WelcomeActivity extends AppCompatActivity {
         };
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
         Log.v("location", String.valueOf(location.getLongitude()+location.getLatitude()));
-        Toast.makeText(this, "updatelocation"+location.getLongitude()+location.getLatitude(), Toast.LENGTH_SHORT).show();
     }
 
 

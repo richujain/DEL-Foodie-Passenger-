@@ -1,8 +1,10 @@
 package com.example.delfoodiepassenger;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Image;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +22,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.delfoodiepassenger.model.Cart;
+import com.example.delfoodiepassenger.model.Customer;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
@@ -33,11 +37,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.realm.Realm;
+
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHolder> {
     ItemListData[] itemsListData;
     Context context;
     ItemListData currentItem;
     int quantity = 1;
+    Realm realm;
+
     public ItemListAdapter(ItemListData[] itemsListData,RestaurantMenuListActivity context) {
         this.itemsListData = itemsListData;
         this.context = context;
@@ -121,7 +129,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                 }
                 else{
                     itemDetails(itemsListData[position].getItemId());
-                    Log.v("itemdetails",""+currentItem.getItemName());
+                    addToCart(currentItem);
+                    dialogInterface.dismiss();
                 }
 
 
@@ -135,6 +144,38 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
             }
         });
         dialog.show();
+    }
+    private void addToCart(final ItemListData currentItem) {
+        realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Cart cart = bgRealm.createObject(Cart.class);
+                cart.setItemId(currentItem.getItemId());
+                cart.setItemName(currentItem.getItemName());
+                cart.setItemPrice(currentItem.getItemPrice());
+                cart.setImageurl(currentItem.getImageUrl());
+                Intent intent = ((Activity) context).getIntent();
+                String longitude = intent.getStringExtra("restaurantLat");
+                String latitude = intent.getStringExtra("restaurantLng");
+                cart.setLat(latitude);
+                cart.setLon(longitude);
+                cart.setItemQuantity(quantity);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(context, "Added To Cart", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context,CartActivity.class));
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Toast.makeText(context, "Error Adding Item To Cart", Toast.LENGTH_SHORT).show();
+                Log.e("database",error.getMessage());
+            }
+        });
     }
     private void itemDetails(String itemId){
         String json;

@@ -64,9 +64,13 @@ public class DisplayRestaurants extends AppCompatActivity {
         final String[] maintitle = new String[list.size()];
         String[] subtitle = new String[list.size()];
         String[] imageUrl = new String[list.size()];
+        final String[] restaurantLat = new String[list.size()];
+        final String[] restaurantLng = new String[list.size()];
         for(int i = 0; i < list.size(); i++){
             maintitle[i] = list.get(i).name;
             subtitle[i] = list.get(i).rating;
+            restaurantLat[i] = list.get(i).lat;
+            restaurantLng[i] = list.get(i).lng;
             switch (maintitle[i]){
                 case "Boston Pizza" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Boston_Pizza.jpg";
                                      break;
@@ -106,6 +110,8 @@ public class DisplayRestaurants extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(DisplayRestaurants.this, RestaurantMenuListActivity.class);
                     intent.putExtra("restaurantName", maintitle[position]);
+                    intent.putExtra("restaurantLat", restaurantLat[position]);
+                    intent.putExtra("restaurantLng", restaurantLng[position]);
                     startActivity(intent);
                 }
             });
