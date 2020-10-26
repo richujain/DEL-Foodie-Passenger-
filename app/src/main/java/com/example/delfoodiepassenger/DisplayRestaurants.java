@@ -3,6 +3,7 @@ package com.example.delfoodiepassenger;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
@@ -44,7 +45,7 @@ public class DisplayRestaurants extends AppCompatActivity {
     private static final String TYPE_SEARCH = "/nearbysearch";
     private static final String OUT_JSON = "/json?";
     private static final String LOG_TAG = "ListRest";
-
+    CardView cardView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class DisplayRestaurants extends AppCompatActivity {
         final String[] maintitle = new String[list.size()];
         String[] subtitle = new String[list.size()];
         String[] imageUrl = new String[list.size()];
+        String[] coverUrl = new String[list.size()];
         final String[] restaurantLat = new String[list.size()];
         final String[] restaurantLng = new String[list.size()];
         for(int i = 0; i < list.size(); i++){
@@ -73,24 +75,34 @@ public class DisplayRestaurants extends AppCompatActivity {
             restaurantLng[i] = list.get(i).lng;
             switch (maintitle[i]){
                 case "Boston Pizza" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Boston_Pizza.jpg";
-                                     break;
+                    coverUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/boston-1.jpeg";
+                    break;
                 case "Tim Hortons" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Tim_Hortons.png";
+                    coverUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/tim.jpg";
                     break;
                 case "McDonald's" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/McDonalds.jpeg";
+                    coverUrl[i] ="https://qualitymiddleeast.com/wp-content/uploads/2020/10/mcd.jpg";
                     break;
                 case "Harvey's" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Harveys.png";
+                    coverUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/harveys.jpg";
                     break;
                 case "Popeyes Louisana Kitchen" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Popeyes-Louisana-Kitchen.jpg";
+                    coverUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/popeyes.jpg";
                     break;
                 case "Subway" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Subway.png";
+                    coverUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/subway-1.png";
                     break;
                 case "KFC" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/KFC.jpg";
+                    coverUrl[i] ="https://qualitymiddleeast.com/wp-content/uploads/2020/10/kfc-1.jpg";
                     break;
                 case "Pizza Pizza" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Pizza-Pizza.png";
+                    coverUrl[i] ="https://qualitymiddleeast.com/wp-content/uploads/2020/10/pizza-pizza.jpg";
                     break;
                 case "A&W Restaurants" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/AW_Restaurants.jpg";
+                    coverUrl[i] ="https://qualitymiddleeast.com/wp-content/uploads/2020/10/AandW.jpg";
                     break;
                 case "Burger King" : imageUrl[i] = "https://qualitymiddleeast.com/wp-content/uploads/2020/10/Burger_King.png";
+                    coverUrl[i] ="https://qualitymiddleeast.com/wp-content/uploads/2020/10/burgerking.jpg";
                     break;
                 default: imageUrl[i] = list.get(i).icon;
             }
@@ -101,7 +113,7 @@ public class DisplayRestaurants extends AppCompatActivity {
             /*mListView = (ListView) findViewById(R.id.listView);
             ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, list);
             mListView.setAdapter(adapter);*/
-            MyListAdapter adapter=new MyListAdapter(this, maintitle, subtitle,imageUrl);
+            MyListAdapter adapter=new MyListAdapter(this, maintitle, subtitle,imageUrl,coverUrl);
             mListView=(ListView)findViewById(R.id.listView);
             mListView.setAdapter(adapter);
             mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,6 +125,7 @@ public class DisplayRestaurants extends AppCompatActivity {
                     intent.putExtra("restaurantLat", restaurantLat[position]);
                     intent.putExtra("restaurantLng", restaurantLng[position]);
                     startActivity(intent);
+
                 }
             });
 

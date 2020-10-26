@@ -16,8 +16,9 @@ public class MyListAdapter extends ArrayAdapter<String> {
     private final String[] maintitle;
     private final String[] subtitle;
     private final String[] imgid;
+    private final String[] coverid;
 
-    public MyListAdapter(Activity context, String[] maintitle, String[] subtitle, String[] imgid) {
+    public MyListAdapter(Activity context, String[] maintitle, String[] subtitle, String[] imgid, String[] coverid) {
         super(context, R.layout.restaurants_listview_layout, maintitle);
         // TODO Auto-generated constructor stub
 
@@ -25,6 +26,7 @@ public class MyListAdapter extends ArrayAdapter<String> {
         this.maintitle=maintitle;
         this.subtitle=subtitle;
         this.imgid=imgid;
+        this.coverid=coverid;
 
     }
 
@@ -35,10 +37,12 @@ public class MyListAdapter extends ArrayAdapter<String> {
         TextView titleText = (TextView) rowView.findViewById(R.id.title);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView subtitleText = (TextView) rowView.findViewById(R.id.subtitle);
+        ImageView coverView = (ImageView) rowView.findViewById(R.id.coverPhoto);
 
         titleText.setText(maintitle[position]);
         //imageView.setImageResource(imgid);
         Glide.with(context).load(imgid[position]).centerCrop().into(imageView);
+        Glide.with(context).load(coverid[position]).centerInside().into(coverView);
 
         subtitleText.setText(subtitle[position]);
 
