@@ -94,6 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
             itemName = itemView.findViewById(R.id.itemNameForCart);
             itemPrice = itemView.findViewById(R.id.itemPriceForCart);
             itemQuantity = itemView.findViewById(R.id.itemQuantityForCart);
+
         }
     }
 }
