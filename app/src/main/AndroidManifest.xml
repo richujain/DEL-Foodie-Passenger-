@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DeliveryActivity"></activity>
         <activity android:name=".CartActivity" />
-        <activity android:name=".RestaurantMenuListActivity" />
+        <activity android:name=".RestaurantMenuListActivity"/>
         <activity android:name=".DisplayRestaurants" />
         <activity android:name=".RestaurantsNearMe" />
         <activity
