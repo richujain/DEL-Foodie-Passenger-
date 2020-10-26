@@ -64,7 +64,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/paymentOptions"
+        android:id="@+id/payAmount"
         android:text="Show Payment Options"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
