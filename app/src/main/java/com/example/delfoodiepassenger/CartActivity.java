@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.delfoodiepassenger.model.Cart;
@@ -23,6 +25,7 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     TextView netAmount, grossAmount;
     Double amount = 0.0;
+    Button checkOut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +60,19 @@ public class CartActivity extends AppCompatActivity {
         }
         netAmount = findViewById(R.id.netAmount);
         grossAmount = findViewById(R.id.grossAmount);
-
+        checkOut = findViewById(R.id.checkOut);
         netAmount.setText("Net Amount : $" + amount);
         Double gross = amount + (amount*0.13);
         grossAmount.setText("Gross Amount : $" + gross);
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(CartActivity.this, DeliveryActivity.class);
+                intent.putExtra("amount", amount);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
