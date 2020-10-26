@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.delfoodiepassenger.model.Cart;
@@ -16,6 +18,8 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
+import static java.lang.Math.round;
+
 public class CartActivity extends AppCompatActivity {
     Realm realm;
     Cart[] cart;
@@ -23,6 +27,8 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     TextView netAmount, grossAmount;
     Double amount = 0.0;
+    int quantity = 1;
+    Button checkOut;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,16 +59,34 @@ public class CartActivity extends AppCompatActivity {
         cart = new Cart[result.size()];
         for(int i = 0 ; i < result.size() ; i++ ){
             cart[i] = result.get(i);
-            amount = Double.parseDouble(""+result.get(i).getItemPrice());
+            quantity = Integer.parseInt(""+result.get(i).getItemQuantity());
+            amount = amount + (Double.parseDouble(""+result.get(i).getItemPrice())*quantity);
         }
         netAmount = findViewById(R.id.netAmount);
         grossAmount = findViewById(R.id.grossAmount);
-
+        checkOut = findViewById(R.id.checkOut);
         netAmount.setText("Net Amount : $" + amount);
         Double gross = amount + (amount*0.13);
-        grossAmount.setText("Gross Amount : $" + gross);
+        grossAmount.setText("Gross Amount : $" + round(gross,2));
+        checkOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(CartActivity.this, DeliveryActivity.class);
+                intent.putExtra("amount", amount);
+                startActivity(intent);
+            }
+        });
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

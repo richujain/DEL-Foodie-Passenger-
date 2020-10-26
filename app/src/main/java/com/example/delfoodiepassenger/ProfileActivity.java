@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int GALLERY_REQUEST = 9;
     ImageView profileImage;
     Button editProfilePicture,gallery;
-    //Ashish
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         saveProfileDetails = findViewById(R.id.saveProfileDetails);
         realm = Realm.getDefaultInstance();
         updateUI();
-        //Ashish
+
         profileImage = findViewById(R.id.imageView);
         editProfilePicture = findViewById(R.id.editProfilepicture);
         gallery = findViewById(R.id.gallery);
@@ -95,7 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(intent, GALLERY_REQUEST);
             }
         });
-        //Ashish
+
         saveProfileDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +179,7 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(new Intent(ProfileActivity.this,MainActivity.class));
         finish();
     }
-    //Ashish
+
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA},CAMERA_PERM_CODE);

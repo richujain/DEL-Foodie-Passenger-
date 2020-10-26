@@ -1,7 +1,10 @@
 package com.example.delfoodiepassenger;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.content.Context;
@@ -10,11 +13,14 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class RestaurantsNearMe extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -22,13 +28,21 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
     private static final int PERMISSION_REQUEST_LOCATION = 0;
     private View mLayout;
     ViewFlipper vFlipper;
+    public DrawerLayout drawerLayout;
+
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants_near_me);
+        init();
         mLayout = findViewById(R.id.layout);
+
+
         Button button = findViewById(R.id.button);
+
 
         int images[] = {R.drawable.popular1, R.drawable.popular3};
         vFlipper = findViewById(R.id.vFlipper);
@@ -43,6 +57,42 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
             @Override
             public void onClick(View v) {
                 showRestaurants();
+            }
+        });
+
+    }
+
+    public void init()
+    {
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
+        drawerLayout = findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.profile:
+                        startActivity(new Intent(RestaurantsNearMe.this, ProfileActivity.class));
+                        finish();
+                        break;
+                    case R.id.payment:
+                        startActivity(new Intent(RestaurantsNearMe.this, PaymentActivity.class));
+                        finish();
+                        break;
+                    case R.id.logout:
+                        Toast.makeText(RestaurantsNearMe.this, "Logout", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
+                }
+                return true;
             }
         });
     }
@@ -134,5 +184,8 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
             intent.putExtra("lat", lat);
             startActivity(intent);
         }
+    }
+    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }
