@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.delfoodiepassenger.model.Cart;
 import com.example.delfoodiepassenger.model.Customer;
@@ -20,6 +21,8 @@ public class CartActivity extends AppCompatActivity {
     Cart[] cart;
     RecyclerView recyclerView;
     CartAdapter cartAdapter;
+    TextView netAmount, grossAmount;
+    Double amount = 0.0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,8 @@ public class CartActivity extends AppCompatActivity {
 
         cartAdapter = new CartAdapter(cart, CartActivity.this);
         recyclerView.setAdapter(cartAdapter);
+
+
     }
     private void getCartItems() {
         RealmResults<Cart> result = realm.where(Cart.class)
@@ -48,7 +53,14 @@ public class CartActivity extends AppCompatActivity {
         cart = new Cart[result.size()];
         for(int i = 0 ; i < result.size() ; i++ ){
             cart[i] = result.get(i);
+            amount = Double.parseDouble(""+result.get(i).getItemPrice());
         }
+        netAmount = findViewById(R.id.netAmount);
+        grossAmount = findViewById(R.id.grossAmount);
+
+        netAmount.setText("Net Amount : $" + amount);
+        Double gross = amount + (amount*0.13);
+        grossAmount.setText("Gross Amount : $" + gross);
     }
 
     @Override

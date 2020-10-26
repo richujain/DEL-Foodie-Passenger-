@@ -11,16 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerViewForCart"
+        android:layout_above="@id/netAmount"
+        android:layout_alignParentTop="true"
         android:layout_margin="5dp"/>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/netAmount"
         android:layout_above="@id/grossAmount"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         />
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/grossAmount"
