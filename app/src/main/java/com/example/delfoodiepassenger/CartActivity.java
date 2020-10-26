@@ -28,6 +28,8 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        CartAdapter cartAdapter = new CartAdapter(cart, CartActivity.this);
+        recyclerView.setAdapter(cartAdapter);
     }
     private void getCartItems() {
         RealmResults<Cart> result = realm.where(Cart.class)
