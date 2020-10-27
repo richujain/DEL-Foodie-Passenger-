@@ -53,6 +53,7 @@ public class RestaurantMenuListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         viewCart = findViewById(R.id.viewCart);
         realm = Realm.getDefaultInstance();
+        /*
         RealmResults<Cart> result = realm.where(Cart.class)
                 .findAll();
         result.addChangeListener(new RealmChangeListener<RealmResults<Cart>>() {
@@ -66,10 +67,11 @@ public class RestaurantMenuListActivity extends AppCompatActivity {
                 }
             }
         });
+        */
         viewCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CartActivity.class);// New activity
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

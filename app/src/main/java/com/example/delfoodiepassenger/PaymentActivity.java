@@ -51,7 +51,7 @@ public class PaymentActivity extends AppCompatActivity {
     private View googlePayButton;
     private EditText cardExpiry, cardNumber, cvv;
     private TextView amount;
-    private Button savePaymentDetails;
+    private Button savePaymentDetails, payWithCreditCard;
     Realm realm;
     Double totalAmount = 0.0;
 
@@ -69,6 +69,19 @@ public class PaymentActivity extends AppCompatActivity {
         cvv = findViewById(R.id.cvv);
         cardExpiry = findViewById(R.id.cardExpiry);
         savePaymentDetails = findViewById(R.id.savePaymentDetails);
+        payWithCreditCard = findViewById(R.id.payWithCreditCard);
+        payWithCreditCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RealmResults<Cart> result = realm.where(Cart.class)
+                        .findAll();
+                realm.beginTransaction();
+                result.deleteAllFromRealm();
+                realm.commitTransaction();
+                startActivity(new Intent(PaymentActivity.this,RestaurantsNearMe.class));
+                finish();
+            }
+        });
         realm = Realm.getDefaultInstance();
         updateUI();
         Toolbar toolbar = findViewById(R.id.toolbarPayment);

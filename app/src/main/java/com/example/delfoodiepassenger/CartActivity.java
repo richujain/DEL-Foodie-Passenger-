@@ -1,18 +1,24 @@
 package com.example.delfoodiepassenger;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.delfoodiepassenger.model.Cart;
 import com.example.delfoodiepassenger.model.Customer;
+import com.google.android.material.snackbar.Snackbar;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -71,10 +77,11 @@ public class CartActivity extends AppCompatActivity {
         checkOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(CartActivity.this, DeliveryActivity.class);
                 intent.putExtra("amount", amount);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -87,10 +94,44 @@ public class CartActivity extends AppCompatActivity {
         long tmp = Math.round(value);
         return (double) tmp / factor;
     }
+    private void showCloseDialog() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this,R.style.MyDialogTheme);
+        dialog.setTitle("Going Back Will Clear Your Cart. Are you sure you still want to go back?");
+
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View login_layout = inflater.inflate(R.layout.layout_dialog_box,null);
+
+        dialog.setView(login_layout);
+
+        //set button
+        dialog.setPositiveButton("Clear and Go Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                RealmResults<Cart> results = realm.where(Cart.class)
+                        .findAll();
+                realm.beginTransaction();
+                results.deleteAllFromRealm();
+                realm.commitTransaction();
+               Intent intent = new Intent(CartActivity.this, RestaurantsNearMe.class);
+               intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               startActivity(intent);
+               finish();
+            }
+        });
+
+        dialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        dialog.show();
+    }
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(),RestaurantsNearMe.class));
-        finish();
+        showCloseDialog();
+
     }
 }
