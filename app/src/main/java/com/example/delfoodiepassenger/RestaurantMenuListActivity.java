@@ -64,7 +64,6 @@ public class RestaurantMenuListActivity extends AppCompatActivity {
                 else if(!carts.get(0).getItemName().isEmpty()){
                     viewCart.setVisibility(View.VISIBLE);
                 }
-
             }
         });
         viewCart.setOnClickListener(new View.OnClickListener() {

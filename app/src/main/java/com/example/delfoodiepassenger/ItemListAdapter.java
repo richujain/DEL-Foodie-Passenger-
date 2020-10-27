@@ -156,8 +156,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
                 cart.setItemPrice(currentItem.getItemPrice());
                 cart.setImageurl(currentItem.getImageUrl());
                 Intent intent = ((Activity) context).getIntent();
-                String longitude = intent.getStringExtra("restaurantLat");
-                String latitude = intent.getStringExtra("restaurantLng");
+                String latitude = intent.getStringExtra("restaurantLat");
+                String longitude = intent.getStringExtra("restaurantLng");
                 cart.setLat(latitude);
                 cart.setLon(longitude);
                 cart.setItemQuantity(quantity);
