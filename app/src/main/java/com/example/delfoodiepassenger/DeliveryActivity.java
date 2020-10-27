@@ -3,6 +3,7 @@ package com.example.delfoodiepassenger;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,7 @@ public class DeliveryActivity extends AppCompatActivity {
     Realm realm;
     Double distanceFromRestaurantToCustomerLocation;
     TextView grossAmountInDelivery, totalDistance, deliveryCharge, amountToPay;
-    Button payAmount;
+    Button payAmount, viewInMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,7 @@ public class DeliveryActivity extends AppCompatActivity {
         deliveryCharge = findViewById(R.id.deliveryCharge);
         amountToPay = findViewById(R.id.amountToPay);
         payAmount = findViewById(R.id.payAmount);
+        viewInMap = findViewById(R.id.viewInMap);
         Intent intent = getIntent();
         amount = intent.getDoubleExtra("amount",0);
         realm = Realm.getDefaultInstance();
@@ -42,6 +44,14 @@ public class DeliveryActivity extends AppCompatActivity {
         //Log.v("long2",""+customerLng);
         distanceFromRestaurantToCustomerLocation = distance(restaurantLat,restaurantLng,customerLat,customerLng);
         updateUI();
+        viewInMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?saddr="+restaurantLat+","+restaurantLng+"&daddr="+customerLat+","+customerLng+""));
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateUI() {
@@ -87,8 +97,6 @@ public class DeliveryActivity extends AppCompatActivity {
     private void fetchRestaurantLocationFromRealmDatabase() {
         RealmResults<Cart> result = realm.where(Cart.class)
                 .findAll();
-        Log.v("testing1",""+result.first().getLat());
-        Log.v("testing1",""+result.first().getLon());
         restaurantLat = Double.parseDouble(result.first().getLat());
         restaurantLng = Double.parseDouble(result.first().getLon());
 

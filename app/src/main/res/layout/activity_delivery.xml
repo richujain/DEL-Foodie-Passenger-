@@ -21,7 +21,6 @@
         android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_below="@+id/heading"
-
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_centerInParent="true"
         android:layout_margin="15dp"
@@ -55,15 +54,23 @@
         android:id="@+id/amountToPay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/deliveryCharge"
         android:layout_centerVertical="true"
         android:layout_marginTop="242dp"
         android:layout_marginBottom="15dp"
         android:gravity="center"
         android:text="Amount To Pay : $"
+        android:layout_above="@id/viewInMap"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:textColor="@color/colorPrimaryDark" />
 
+    <Button
+        android:id="@+id/viewInMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_above="@+id/payAmount"
+        android:background="@drawable/button_rounded_corner"
+        android:text="Show Payment Options" />
     <Button
         android:id="@+id/payAmount"
         android:layout_width="match_parent"
