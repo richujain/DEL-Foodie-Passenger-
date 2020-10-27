@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/netAmount"
+        android:textSize="10pt"
         android:layout_above="@id/grossAmount"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         />
@@ -26,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/grossAmount"
+        android:textSize="10pt"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:layout_above="@id/checkOut"
         android:layout_marginBottom="15dp"
