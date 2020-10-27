@@ -56,14 +56,16 @@ public class DeliveryActivity extends AppCompatActivity {
 
     private void updateUI() {
         grossAmountInDelivery.setText("Purchased : $"+round(amount,2));
-        totalDistance.setText("Distance : "+distanceFromRestaurantToCustomerLocation+"Kms");
+        totalDistance.setText("Distance : "+round(distanceFromRestaurantToCustomerLocation,2)+"Kms");
         deliveryCharge.setText("Delivery Charge : $"+Math.ceil(distanceFromRestaurantToCustomerLocation));
-        Double total = amount+Math.ceil(distanceFromRestaurantToCustomerLocation);
-        amountToPay.setText("Amount To Pay : $"+total);
+        final Double total = amount+Math.ceil(distanceFromRestaurantToCustomerLocation);
+        amountToPay.setText("Amount To Pay : $"+round(total,2));
         payAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DeliveryActivity.this,PaymentActivity.class));
+                Intent intent = new Intent(DeliveryActivity.this, PaymentActivity.class);
+                intent.putExtra("totalAmount", round(total,2));
+                startActivity(intent);
             }
         });
     }

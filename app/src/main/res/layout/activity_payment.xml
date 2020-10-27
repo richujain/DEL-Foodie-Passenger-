@@ -97,11 +97,13 @@
         android:textStyle="bold"
         android:id="@+id/amountTitle"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/amountTitle"
-        android:text="50.53"
+        android:text=""
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:hint="Enter the CVV"
         android:id="@+id/amount"
         android:gravity="center"/>

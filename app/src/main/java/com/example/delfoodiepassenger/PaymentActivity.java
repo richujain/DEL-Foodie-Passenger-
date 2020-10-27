@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.delfoodiepassenger.databinding.ActivityPaymentBinding;
@@ -39,6 +40,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class PaymentActivity extends AppCompatActivity {
@@ -47,9 +49,11 @@ public class PaymentActivity extends AppCompatActivity {
     private PaymentsClient paymentsClient;
     private ActivityPaymentBinding layoutBinding;
     private View googlePayButton;
-    private EditText amount, cardExpiry, cardNumber, cvv;
+    private EditText cardExpiry, cardNumber, cvv;
+    private TextView amount;
     private Button savePaymentDetails;
     Realm realm;
+    Double totalAmount = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +156,9 @@ public class PaymentActivity extends AppCompatActivity {
         layoutBinding = ActivityPaymentBinding.inflate(getLayoutInflater());
         setContentView(layoutBinding.getRoot());
         amount = findViewById(R.id.amount);
-
+        Intent intent = getIntent();
+        totalAmount = intent.getDoubleExtra("totalAmount",0);
+        amount.setText(""+totalAmount);
         googlePayButton = layoutBinding.googlePayButton.getRoot();
         googlePayButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -219,6 +225,17 @@ public class PaymentActivity extends AppCompatActivity {
 
             // Logging token string.
             Log.d("Google Pay token: ", token);
+            RealmResults<Cart> result = realm.where(Cart.class)
+                    .findAll();
+            // All changes to data must happen in a transaction
+            realm.beginTransaction();
+
+            // Delete all matches
+            result.deleteAllFromRealm();
+
+            realm.commitTransaction();
+            startActivity(new Intent(PaymentActivity.this,RestaurantsNearMe.class));
+            finish();
 
         } catch (JSONException e) {
             throw new RuntimeException("The selected garment cannot be parsed from the list of elements");
