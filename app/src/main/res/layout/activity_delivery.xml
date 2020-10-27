@@ -70,7 +70,7 @@
         android:layout_margin="10dp"
         android:layout_above="@+id/payAmount"
         android:background="@drawable/button_rounded_corner"
-        android:text="Show Payment Options" />
+        android:text="View In Map" />
     <Button
         android:id="@+id/payAmount"
         android:layout_width="match_parent"
@@ -79,6 +79,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="140dp"
         android:background="@drawable/button_rounded_corner"
-        android:text="Show Payment Options" />
+        android:text="Pay" />
 
 </RelativeLayout>

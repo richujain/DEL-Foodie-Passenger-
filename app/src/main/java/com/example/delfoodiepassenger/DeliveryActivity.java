@@ -55,9 +55,9 @@ public class DeliveryActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        grossAmountInDelivery.setText("Purchased : $"+amount);
+        grossAmountInDelivery.setText("Purchased : $"+round(amount,2));
         totalDistance.setText("Distance : "+distanceFromRestaurantToCustomerLocation+"Kms");
-        deliveryCharge.setText("Delivery Charge : $"+distanceFromRestaurantToCustomerLocation);
+        deliveryCharge.setText("Delivery Charge : $"+Math.ceil(distanceFromRestaurantToCustomerLocation));
         Double total = amount+Math.ceil(distanceFromRestaurantToCustomerLocation);
         amountToPay.setText("Amount To Pay : $"+total);
         payAmount.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +66,14 @@ public class DeliveryActivity extends AppCompatActivity {
                 startActivity(new Intent(DeliveryActivity.this,PaymentActivity.class));
             }
         });
+    }
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
     }
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {

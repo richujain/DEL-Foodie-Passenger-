@@ -65,7 +65,7 @@ public class CartActivity extends AppCompatActivity {
         netAmount = findViewById(R.id.netAmount);
         grossAmount = findViewById(R.id.grossAmount);
         checkOut = findViewById(R.id.checkOut);
-        netAmount.setText("Net Amount : $" + amount);
+        netAmount.setText("Net Amount : $" + round(amount,2));
         Double gross = amount + (amount*0.13);
         grossAmount.setText("Gross Amount : $" + round(gross,2));
         checkOut.setOnClickListener(new View.OnClickListener() {
