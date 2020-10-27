@@ -25,7 +25,7 @@
             android:textStyle="bold"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="@color/colortoolbar"
+            android:textColor="@color/colorPrimaryDark"
             app:met_baseColor="@color/colortoolbar"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="@color/colortoolbar"

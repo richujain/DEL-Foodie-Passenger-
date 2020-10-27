@@ -76,7 +76,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ViewHo
     }
     private void showAddToCartDialog(final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context,R.style.MyDialogTheme);
-        dialog.setTitle("Add To Cart");
+
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View login_layout = inflater.inflate(R.layout.layout_add_to_cart,null);
