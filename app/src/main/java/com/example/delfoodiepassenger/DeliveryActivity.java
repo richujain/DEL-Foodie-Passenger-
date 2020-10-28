@@ -1,22 +1,30 @@
 package com.example.delfoodiepassenger;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.delfoodiepassenger.model.Cart;
 import com.example.delfoodiepassenger.model.Customer;
+import com.google.android.material.navigation.NavigationView;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class DeliveryActivity extends AppCompatActivity {
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     Double amount;
     Double restaurantLat,restaurantLng, customerLat, customerLng;
     Realm realm;
@@ -27,6 +35,7 @@ public class DeliveryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
+        init();
         grossAmountInDelivery = findViewById(R.id.grossAmountInDelivery);
         totalDistance = findViewById(R.id.totalDistance);
         deliveryCharge = findViewById(R.id.deliveryCharge);
@@ -50,6 +59,38 @@ public class DeliveryActivity extends AppCompatActivity {
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                         Uri.parse("http://maps.google.com/maps?saddr="+restaurantLat+","+restaurantLng+"&daddr="+customerLat+","+customerLng+""));
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void init() {
+        drawerLayout = findViewById(R.id.drawerLayout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.profile:
+                        startActivity(new Intent(DeliveryActivity.this, ProfileActivity.class));
+                        finish();
+                        break;
+                    case R.id.payment:
+                        startActivity(new Intent(DeliveryActivity.this, PaymentActivity.class));
+                        finish();
+                        break;
+                    case R.id.logout:
+                        Toast.makeText(DeliveryActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
+                }
+                return true;
             }
         });
     }
@@ -112,5 +153,8 @@ public class DeliveryActivity extends AppCompatActivity {
 
         Log.v("testing2",""+restaurantLat);
         Log.v("testing2",""+restaurantLng);
+    }
+    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }
