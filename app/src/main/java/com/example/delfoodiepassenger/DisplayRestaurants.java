@@ -257,4 +257,7 @@ public class DisplayRestaurants extends AppCompatActivity {
 
 
     }
+    public boolean onOptionsItemSelected (@NonNull MenuItem item){
+        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
 }
