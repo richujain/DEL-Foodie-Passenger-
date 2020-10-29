@@ -23,7 +23,7 @@
         <activity android:name=".RestaurantsNearMe" />
         <activity
             android:name=".SplashScreen"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

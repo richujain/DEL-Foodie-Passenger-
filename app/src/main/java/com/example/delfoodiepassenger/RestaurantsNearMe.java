@@ -35,11 +35,11 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
      public  VideoView video1;
     public ActionBarDrawerToggle actionBarDrawerToggle;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurants_near_me);
+
         init();
         mLayout = findViewById(R.id.layout);
         video1 =  findViewById(R.id.video1);
