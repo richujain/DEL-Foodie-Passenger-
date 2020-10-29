@@ -24,7 +24,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewForCart"
         android:layout_width="match_parent"
-        android:layout_height="454dp"
+        android:layout_height="492dp"
         android:layout_above="@id/netAmount"
         android:layout_below="@+id/textView"
         android:layout_marginStart="5dp"
