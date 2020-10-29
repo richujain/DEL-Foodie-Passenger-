@@ -33,7 +33,7 @@ import io.realm.RealmResults;
 import static java.lang.Math.round;
 
 public class CartActivity extends AppCompatActivity {
-    private DrawerLayout drawerLayout;
+
     private ActionBarDrawerToggle actionBarDrawerToggle;
     Realm realm;
     Cart[] cart;
@@ -54,43 +54,12 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         cartAdapter = new CartAdapter(cart, CartActivity.this);
-        init();
+
         recyclerView.setAdapter(cartAdapter);
 
 
     }
 
-    private void init() {
-        drawerLayout = findViewById(R.id.drawerLayout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
-        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.profile:
-                        startActivity(new Intent(CartActivity.this, ProfileActivity.class));
-                        finish();
-                        break;
-                    case R.id.payment:
-                        startActivity(new Intent(CartActivity.this, PaymentActivity.class));
-                        finish();
-                        break;
-                    case R.id.logout:
-                        Toast.makeText(CartActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-                        break;
-
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
-                }
-                return true;
-            }
-        });
-    }
 
 
 
@@ -178,7 +147,5 @@ public class CartActivity extends AppCompatActivity {
         showCloseDialog();
 
     }
-    public boolean onOptionsItemSelected (@NonNull MenuItem item){
-        return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-    }
+
 }

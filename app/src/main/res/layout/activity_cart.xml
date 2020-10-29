@@ -1,49 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+
+
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/drawerLayout"
     tools:context=".CartActivity">
+    <include layout="@layout/toolbarorder"/>
 
-    <RelativeLayout
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <View
+        android:layout_width="378dp"
+        android:layout_height="2dp"
+        android:layout_marginLeft="17dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorPrimaryDark"
+        android:outlineAmbientShadowColor="#E91E63"
+        android:outlineSpotShadowColor="#C10000" />
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/recyclerViewForCart"
+        android:layout_width="match_parent"
+        android:layout_height="454dp"
         android:layout_above="@id/netAmount"
-        android:layout_alignParentTop="true"
-        android:layout_margin="5dp"/>
+        android:layout_below="@+id/textView"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="19dp" />
+
+    <View
+        android:layout_width="378dp"
+        android:layout_height="2dp"
+        android:layout_marginLeft="17dp"
+        android:layout_below="@+id/recyclerViewForCart"
+        android:background="@color/colorPrimaryDark"
+        android:outlineAmbientShadowColor="#E91E63"
+        android:outlineSpotShadowColor="#C10000" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/netAmount"
-        android:textSize="10pt"
-        android:layout_above="@id/grossAmount"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        />
-    <com.google.android.material.textview.MaterialTextView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/grossAmount"
-        android:textSize="10pt"
+        android:layout_above="@id/grossAmount"
+        android:layout_marginBottom="23dp"
+        android:gravity="center"
+        android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textColor="@color/colorBlack"
+        android:textSize="8pt" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/grossAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_above="@id/checkOut"
-        android:layout_marginBottom="15dp"
-        />
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textColor="@color/colorBlack"
+        android:textSize="8pt" />
 
     <Button
         android:layout_width="match_parent"
@@ -55,14 +74,6 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/checkOut"/>
-</RelativeLayout>
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/navigation_menu"
-        />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>
