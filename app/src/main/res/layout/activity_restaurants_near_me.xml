@@ -13,7 +13,6 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -30,23 +29,35 @@
         android:layout_below="@id/toolbarPayment"
         app:srcCompat="@drawable/popular1" />  -->
 
+        <VideoView
+            android:id="@+id/video1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"/>
 
-        <ViewFlipper
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_centerInParent="true"
-            android:id="@+id/vFlipper"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_rounded_corner"
-        android:id="@+id/button"
-        android:textColor="#FFFFFF"
-        android:layout_margin="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/vFlipper"
-        android:text="Show nearby restaurants"
-        android:layout_alignParentBottom="true"/>
+       <!-- <ViewFlipper
+            android:layout_width="700dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="false"
+            android:id="@+id/vFlipper"/> */ -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/time_bg"
+                android:id="@+id/button"
+                android:textColor="#FFFFFF"
+                android:layout_margin="15dp"
+                android:padding="15dp"
+                android:text="Show nearby restaurants"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
 
 </RelativeLayout>
 

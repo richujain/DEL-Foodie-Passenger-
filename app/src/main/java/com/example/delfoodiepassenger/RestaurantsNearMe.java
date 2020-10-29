@@ -12,12 +12,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.navigation.NavigationView;
@@ -27,9 +30,9 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
 
     private static final int PERMISSION_REQUEST_LOCATION = 0;
     private View mLayout;
-    ViewFlipper vFlipper;
+   // ViewFlipper vFlipper;
     public DrawerLayout drawerLayout;
-
+     public  VideoView video1;
     public ActionBarDrawerToggle actionBarDrawerToggle;
 
 
@@ -39,27 +42,48 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
         setContentView(R.layout.activity_restaurants_near_me);
         init();
         mLayout = findViewById(R.id.layout);
+        video1 =  findViewById(R.id.video1);
 
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.homebackgroundvideo;
+        video1.setVideoURI(Uri.parse(path));
+        video1.start();
 
-        Button button = findViewById(R.id.button);
-
-
-        int images[] = {R.drawable.popular1, R.drawable.popular3};
-        vFlipper = findViewById(R.id.vFlipper);
-
-
-        for (int image: images)
-        {
-            flipperImages(image);
-        }
-
-        button.setOnClickListener(new View.OnClickListener() {
+        video1.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onClick(View v) {
-                showRestaurants();
+            public void onPrepared(MediaPlayer mp) {
+
             }
         });
 
+
+        //int images[] = {R.drawable.popular4, R.drawable.popular1};
+       // vFlipper = findViewById(R.id.vFlipper);
+
+
+      //  for (int image: images)
+        //{
+          //  flipperImages(image);
+        //}
+
+
+
+    }
+
+    public void onResume()
+    {
+        video1.resume();
+        super.onResume();
+    }
+
+    public void onPause()
+    {
+        video1.suspend();
+        super.onPause();
+    }
+    public void onDestroy()
+    {
+        video1.stopPlayback();
+        super.onDestroy();
     }
 
     public void init()
@@ -95,9 +119,16 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
                 return true;
             }
         });
+
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRestaurants();
+            }
+        });
     }
 
-    public void flipperImages(int image)
+  /*  public void flipperImages(int image)
     {
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(image);
@@ -112,7 +143,7 @@ public class RestaurantsNearMe extends AppCompatActivity implements ActivityComp
 
 
 
-    }
+    } */
 
     public void showRestaurants(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
