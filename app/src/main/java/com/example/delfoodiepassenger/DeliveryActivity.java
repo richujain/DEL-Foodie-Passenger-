@@ -3,9 +3,12 @@ package com.example.delfoodiepassenger;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +20,18 @@ import android.widget.Toast;
 
 import com.example.delfoodiepassenger.model.Cart;
 import com.example.delfoodiepassenger.model.Customer;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.navigation.NavigationView;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class DeliveryActivity extends AppCompatActivity {
+public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCallback {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     Double amount;
@@ -31,11 +40,20 @@ public class DeliveryActivity extends AppCompatActivity {
     Double distanceFromRestaurantToCustomerLocation;
     TextView grossAmountInDelivery, totalDistance, deliveryCharge, amountToPay;
     Button payAmount, viewInMap;
+    private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyBv-e9tRLwIvp-bRAx5tY7LfWs8BlRpUz4";
+    private MapView mapView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
         init();
+        Bundle mapViewBundle = null;
+        if(savedInstanceState != null){
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
         grossAmountInDelivery = findViewById(R.id.grossAmountInDelivery);
         totalDistance = findViewById(R.id.totalDistance);
         deliveryCharge = findViewById(R.id.deliveryCharge);
@@ -156,5 +174,50 @@ public class DeliveryActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected (@NonNull MenuItem item){
         return actionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng coordinates = new LatLng(restaurantLat, restaurantLng);
+        googleMap.addMarker(new MarkerOptions().position(coordinates).title("Restuarant"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+        mapView.onResume();
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED){
+            return;
+        }
+        googleMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 }

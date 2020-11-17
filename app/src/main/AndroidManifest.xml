@@ -38,9 +38,12 @@
         <meta-data
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBv-e9tRLwIvp-bRAx5tY7LfWs8BlRpUz4"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
 
         <activity
             android:name=".PaymentActivity"
