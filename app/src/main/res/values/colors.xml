@@ -7,6 +7,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#ff0000</color>
+    <color name="colorBlue">#005EFF</color>
     <color name="colorBtnSignIn">#1fbad6</color>
     <color name="colortoolbar">#489cff</color>
     <color name="colorRippleEffect">#2e6ad1</color>

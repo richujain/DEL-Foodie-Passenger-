@@ -4,34 +4,52 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.delfoodiepassenger.model.Cart;
 import com.example.delfoodiepassenger.model.Customer;
+import com.example.delfoodiepassenger.model.PolylineData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PendingResult;
+import com.google.maps.internal.PolylineEncoding;
+import com.google.maps.model.DirectionsResult;
+import com.google.maps.model.DirectionsRoute;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnPolylineClickListener {
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     Double amount;
@@ -40,8 +58,11 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
     Double distanceFromRestaurantToCustomerLocation;
     TextView grossAmountInDelivery, totalDistance, deliveryCharge, amountToPay;
     Button payAmount, viewInMap;
+    private GoogleMap mGoogleMap;
     private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyBv-e9tRLwIvp-bRAx5tY7LfWs8BlRpUz4";
     private MapView mapView;
+    private GeoApiContext geoApiContext = null;
+    private ArrayList<PolylineData> polylinesData = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +75,11 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
+        if(geoApiContext == null){
+            geoApiContext = new GeoApiContext.Builder()
+                    .apiKey("AIzaSyBv-e9tRLwIvp-bRAx5tY7LfWs8BlRpUz4")
+                    .build();
+        }
         grossAmountInDelivery = findViewById(R.id.grossAmountInDelivery);
         totalDistance = findViewById(R.id.totalDistance);
         deliveryCharge = findViewById(R.id.deliveryCharge);
@@ -71,6 +97,7 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
         //Log.v("long2",""+customerLng);
         distanceFromRestaurantToCustomerLocation = distance(restaurantLat,restaurantLng,customerLat,customerLng);
         updateUI();
+        calculateDirections();
         viewInMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +139,68 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
             }
         });
     }
+    private void calculateDirections(){
 
+        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
+                restaurantLat,
+                restaurantLng
+        );
+        DirectionsApiRequest directions = new DirectionsApiRequest(geoApiContext);
+
+        directions.alternatives(true);
+        directions.origin(
+                new com.google.maps.model.LatLng(
+                        customerLat,
+                        customerLng
+                )
+        );
+        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
+            @Override
+            public void onResult(DirectionsResult result) {
+                //ResultSet
+                addPolylinesToMap(result);
+            }
+
+            @Override
+            public void onFailure(Throwable e) {
+
+            }
+        });
+    }
+    private void addPolylinesToMap(final DirectionsResult result){
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if(polylinesData.size() > 0){
+                    for(PolylineData mPolylineData : polylinesData){
+                        mPolylineData.getPolyline().remove();
+                    }
+                    polylinesData.clear();
+                    polylinesData = new ArrayList<>();
+                }
+                for(DirectionsRoute route: result.routes){
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+
+                    List<LatLng> newDecodedPath = new ArrayList<>();
+
+                    // This loops through all the LatLng coordinates of ONE polyline.
+                    for(com.google.maps.model.LatLng latLng: decodedPath){
+
+//                        Log.d(TAG, "run: latlng: " + latLng.toString());
+
+                        newDecodedPath.add(new LatLng(
+                                latLng.lat,
+                                latLng.lng
+                        ));
+                    }
+                    Polyline polyline = mGoogleMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+                    polyline.setColor(ContextCompat.getColor(DeliveryActivity.this, R.color.colorGrey));
+                    polyline.setClickable(true);
+                    polylinesData.add(new PolylineData(polyline,route.legs[0]));
+                }
+            }
+        });
+    }
     private void updateUI() {
         grossAmountInDelivery.setText("Purchased : $"+round(amount,2));
         totalDistance.setText("Distance : "+round(distanceFromRestaurantToCustomerLocation,2)+"Kms");
@@ -178,6 +266,8 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        mGoogleMap.setOnPolylineClickListener(this::onPolylineClick);
         LatLng coordinates = new LatLng(restaurantLat, restaurantLng);
         googleMap.addMarker(new MarkerOptions().position(coordinates).title("Restuarant"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
@@ -188,6 +278,7 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
             return;
         }
         googleMap.setMyLocationEnabled(true);
+        updateCameraPosition(googleMap);
     }
 
     @Override
@@ -219,5 +310,44 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+    private void updateCameraPosition(GoogleMap googleMap) {
+        Location startingLocation = new Location("starting point");
+        startingLocation.setLatitude(customerLat); // location is current location
+        startingLocation.setLongitude(customerLng);
+
+        //Get the target location
+        Location endingLocation = new Location("ending point");
+        endingLocation.setLatitude(restaurantLat);
+        endingLocation.setLongitude(restaurantLng);
+
+        //Find the Bearing from current location to next location
+        float targetBearing = startingLocation.bearingTo(endingLocation);
+        CameraPosition cameraPosition =
+                new CameraPosition.Builder()
+                        .target(new LatLng(customerLat,customerLng))
+                        .bearing(targetBearing)
+                        .tilt(90)
+                        .zoom(googleMap.getCameraPosition().zoom)
+                        .build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+
+    }
+
+    @Override
+    public void onPolylineClick(Polyline polyline) {
+
+        for(PolylineData polylineData: polylinesData){
+            if(polyline.getId().equals(polylineData.getPolyline().getId())){
+                polylineData.getPolyline().setColor(ContextCompat.getColor(DeliveryActivity.this, R.color.colorBlue));
+                polylineData.getPolyline().setZIndex(1);
+                Log.v("polyline",""+polylineData.getLeg().distance);
+            }
+            else{
+                polylineData.getPolyline().setColor(ContextCompat.getColor(DeliveryActivity.this, R.color.colorGrey));
+                polylineData.getPolyline().setZIndex(0);
+            }
+        }
     }
 }
