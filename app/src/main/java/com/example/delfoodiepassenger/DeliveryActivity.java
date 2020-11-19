@@ -343,6 +343,15 @@ public class DeliveryActivity extends AppCompatActivity implements OnMapReadyCal
                 polylineData.getPolyline().setColor(ContextCompat.getColor(DeliveryActivity.this, R.color.colorBlue));
                 polylineData.getPolyline().setZIndex(1);
                 Log.v("polyline",""+polylineData.getLeg().distance);
+                String distance = ""+polylineData.getLeg().distance;
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(distance);
+                stringBuilder.deleteCharAt(distance.length()-1);
+                stringBuilder.deleteCharAt(distance.length()-2);
+                stringBuilder.deleteCharAt(distance.length()-3);
+                distance = stringBuilder.toString();
+                distanceFromRestaurantToCustomerLocation = Double.valueOf(distance);
+                updateUI();
             }
             else{
                 polylineData.getPolyline().setColor(ContextCompat.getColor(DeliveryActivity.this, R.color.colorGrey));
